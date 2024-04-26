@@ -68,6 +68,7 @@ bool read_file(std::string fileName){
                 row++;
             } else if(currentState == 1){ // Current State set to Max
                 max.push_back(addVector);
+                addVector.clear();
             } else if(currentState == 2){ // Current state set to Available
                 addVector.clear();
                 break;
