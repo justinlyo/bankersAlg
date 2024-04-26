@@ -63,10 +63,25 @@ void bankers_alg(){
         }
     }
 
+    // Determines if there is a safe state
+    bool isSafe = true;
     for(int i = 0; i < row; i++){
-        std::cout << sequence[i] << " ";
+        if (inSequence[i] != 1){
+            isSafe = false;
+            break;
+        }
     }
-    std::cout << '\n';
+
+    // Output whether it is a safe state or not
+    if(isSafe) {
+        std::cout << "There is a safe state! ";
+        for(int i = 0; i < row; i++){
+            std::cout << " " << sequence[i] << " ";
+        }
+    } else{
+        std::cout << "There is no safe state!";
+    }
+    std::cout << "\n";
 }
 
 
@@ -115,6 +130,6 @@ bool read_file(std::string fileName){
     }
     // Close file and return that there is no error.
     file.close();
-    std::cout << "Closing file: " << fileName << '\n';
+    std::cout << "Closing file: " << fileName << "\n\n";
     return false;
 }
