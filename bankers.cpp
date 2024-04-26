@@ -38,7 +38,35 @@ void bankers_alg(){
     int sequence[row];
     int count = 0;
 
+    for(int limit = 0; limit < row; limit++){
+        for(int i = 0; i < row; i++){
+            if (inSequence[i] == 1) continue; // Process cannot already be in sequence
+            bool canAllocate = true; //Flag to determine if it should be put into sequence
+            // For loop will determine if a process has the necessary available resources
+            for (int j = 0; j < column; j++){
+                // Need has to be greater than available. Otherwise, there is not enough available resources to be allocated.
+                if(need[i][j] > available[j]){
+                    canAllocate = false;
+                    break; // Breaks out as it is unnecessary to check the other indexes
+                }
+            }
+            // Check to see if it can allocate
+            if (canAllocate){
+                // Will increment necessary components and add onto the available resources
+                sequence[count] = i;
+                inSequence[i] = 1;
+                count++;
+                for (int j = 0; j < column; j++){
+                    available[j] += allocation.at(i).at(j); // Add the allocated resources onto the available
+                }
+            }
+        }
+    }
 
+    for(int i = 0; i < row; i++){
+        std::cout << sequence[i] << " ";
+    }
+    std::cout << '\n';
 }
 
 
