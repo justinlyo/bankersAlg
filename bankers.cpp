@@ -4,6 +4,7 @@
 
 
 bool read_file(std::string fileName);
+void bankers_alg();
 
 int row = 0;
 int column = 0;
@@ -16,8 +17,18 @@ int main(){
     std::string fileName;
     std::cout << "Enter file name: ";
     std::cin >> fileName;
-    read_file(fileName);
+    if (read_file(fileName)) return -1;
+    bankers_alg();
+
+    return 0;
 }
+
+
+void bankers_alg(){
+    
+}
+
+
 
 // Will open file, read file, and get the data from it
 //    return a boolean value depending if there is an error or not
