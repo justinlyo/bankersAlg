@@ -28,11 +28,17 @@ void bankers_alg(){
 
     // Calculate the need. (Need = max-allocation)
     int need[row][column];
+    int inSequence[row]; // Set all indexes of inSequence to 0(false) 
     for(int i = 0; i < row; i++){
         for(int j = 0; j < column; j++){
             need[i][j] = max.at(i).at(j) - allocation.at(i).at(j);
         }
+        inSequence[i] = 0;
     }
+    int sequence[row];
+    int count = 0;
+
+
 }
 
 
