@@ -14,19 +14,24 @@ std::vector<int> available;
 
 
 int main(){
-    std::string fileName;
-    std::cout << "Enter file name: ";
-    std::cin >> fileName;
-    if (read_file(fileName)) return -1;
-    bankers_alg();
+    
+    char shouldContinue = 'y';
+    while(shouldContinue == 'y'){
+        std::string fileName;
+        std::cout << "Enter file name: ";
+        std::cin >> fileName;
+        if (read_file(fileName)) return -1;
+        bankers_alg();
+        std::cout << "Do you want to continue? (y/n): ";
+        std::cin >> shouldContinue;
+    }
+    
 
     return 0;
 }
 
 
 void bankers_alg(){
-
-    // Calculate the need. (Need = max-allocation)
     int need[row][column];
     int inSequence[row]; // Set all indexes of inSequence to 0(false) 
     for(int i = 0; i < row; i++){
@@ -81,7 +86,12 @@ void bankers_alg(){
     } else{
         std::cout << "There is no safe state!";
     }
-    std::cout << "\n";
+    std::cout << "\n\n";
+
+    // We are done with the three variables so we clear them.
+    allocation.clear();
+    max.clear();
+    available.clear();
 }
 
 
@@ -89,6 +99,7 @@ void bankers_alg(){
 // Will open file, read file, and get the data from it
 //    return a boolean value depending if there is an error or not
 bool read_file(std::string fileName){
+    row = 0; column = 0;
     std::cout << "Opening file: " << fileName << '\n';
     std::ifstream file;
     file.open(fileName); // Open file
