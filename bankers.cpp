@@ -114,7 +114,7 @@ bool read_file(std::string fileName){
     // 0 = allocate. 1 = max. 2 = available.
     int currentState = 0;
     std::vector<int> addVector;
-    while(file >> ch){
+    while(!file.eof() && file >> ch){
         if (ch == ';'){
             if (currentState == 0){ // Current State set to Allocation
                 allocation.push_back(addVector);
@@ -127,7 +127,7 @@ bool read_file(std::string fileName){
                 addVector.clear();
                 break;
             }
-        } else if(ch == '.'){ // This will incremete the currentState
+        } else if(ch == '.'){ // This will increment the currentState
             currentState++;
             continue;
         } else if(int (ch)>= '0' && int(ch) <= '9'){  // Ensures it is a number
