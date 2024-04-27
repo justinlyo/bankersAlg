@@ -6,31 +6,31 @@
 bool read_file(std::string fileName);
 void bankers_alg();
 
-int row = 0;
+int row    = 0;
 int column = 0;
+
 std::vector<std::vector<int>> allocation;
 std::vector<std::vector<int>> max;
-std::vector<int> available;
+std::vector<int>              available;
 
 
 int main(){
-    
     char shouldContinue = 'y';
     while(shouldContinue == 'y'){
         std::string fileName;
         std::cout << "Enter file name: ";
-        std::cin >> fileName;
+        std::cin  >> fileName;
         if (read_file(fileName)) return -1;
-        bankers_alg();
-        std::cout << "Do you want to continue? (y/n): ";
-        std::cin >> shouldContinue;
-    }
-    
 
+        bankers_alg();
+
+        std::cout << "Do you want to continue? (y/n): ";
+        std::cin  >> shouldContinue;
+    }
     return 0;
 }
 
-
+// Function that will implement the bankers algorithm using allocation, max, and available. It will determine if there is a sequence or not.
 void bankers_alg(){
     int need[row][column];
     int inSequence[row]; // Set all indexes of inSequence to 0(false) 
@@ -43,6 +43,7 @@ void bankers_alg(){
     int sequence[row];
     int count = 0;
 
+    // Will determine the sequence of the processes
     for(int limit = 0; limit < row; limit++){
         for(int i = 0; i < row; i++){
             if (inSequence[i] == 1) continue; // Process cannot already be in sequence
@@ -77,7 +78,7 @@ void bankers_alg(){
         }
     }
 
-    // Output whether it is a safe state or not
+    // Output whether it is a safe state or not and the sequence if so.
     if(isSafe) {
         std::cout << "There is a safe state! ";
         for(int i = 0; i < row; i++){
