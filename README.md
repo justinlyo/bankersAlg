@@ -1,4 +1,4 @@
-# Bankers Algorithm for deadlock avoidance
+# Bankers Algorithm
 Justin Lyogky
 CS 33211<br /> 
 #### Programming Assignment #2<br /> 
@@ -64,5 +64,77 @@ If the character is a semicolon, then we have to check what the current state is
 Once the end of the file has been reached, then it will exit the while loop and close the file. It will then go back to main.
 
 ## Bankers Algorithm
+The `bankers_alg()` is in charge of preforming the bankers algorithm given that allocation, max, and available are all set. 
+We first need to calculate the NEED since it is needed in calculating if there is a deadlock. This is done by the following code
+```
+for(int i = 0; i < row; i++){
+   for(int j = 0; j < column; j++){
+      need[i][j] = max.at(i).at(j) - allocation.at(i).at(j);
+   }
+   inSequence[i] = 0;
+}
+```
+We set need to the same row size and column size as before. Need is calculate by max subtracted with allocation. So, as seen above, we do this by using a nested for loop to iterate through all the values of max and allocation, subtract them, and place them into the need matrix. It also sets the inSequence variable, which will act as an index holder, and if set to 1, then it means that that index is in the safe state. Therefore, we can conclude that if all the values are set to 1, then there exists a safe state. We can also use this to check if a process is already in the sequence to avoid duplicates. Once it does this, it will continue onto the next part of the bankers algorithm, which is to determine the sequence if there is one. There will be three for loops inside of each other. The basic schema of the code is given below.
+```
+for(int limit = 0; limit < row; limit++){
+  for(int i = 0; i < row; i++){...
+    for(int j = 0; j < column; j++){...}}}
+```
+The first for loop is the limit of times it should itereate through each process. This is the max amount of times it takes until we cover all the possibilities. The second for loop is to iterate through all the rows. The third for loop is to iterate through all the columns. 
+
+We have four main variables that will be used in the for loop. 
+```
+int inSequence[row];
+int sequence[row];
+...
+(in the for loops)
+bool canAllocate = true;
+```
+The first main variable would be the inSequence variable that was mentioned earlier. It will be initialized to all zeros and the process number will directly correspond to the indexes of the inSequence array. This means that if an index is changed to 1, then it will signify that the process is in the sequence. We then have the sequence array that will hold the sequence of execution for the processes. There is also the need variable, which will hold the needed resources for each process. The last variable is canAllocate, which is a flag to determine if the current process should be put into sequence.
 
 
+The first thing we do is check if the process is already in the sequence. We use `if(inSequence[i] == 1) continue;` to check this. If the current index, which directly relates to the process number, is set to 1, then the process is already in the sequence and cannot be added again. We do not want duplicates so it will continue onto the next loop iteration. Otherwise, it will continue to with the code to the following for loop, which is the iterator that checks the columns. We set canAllocate beforehand to true as a flag that it can be put into the sequence. In the for loop we check if the current process' need is greater than the available resources with the following code.
+```
+if(need[i][j] > available[j]){
+  canAllocate = false;
+  break;
+}
+```
+This code will check to see if the process' needed resources are greater than the available resources. The i indicates the current row and j indicates the current column. If so, then it will set the canAllocate to false and break out. Outside of this for loop, we use `if(canAllocate)` to check to see if we are able to allocate the resources to this process. If we can allocate then it will do many things. First, it will add the process number to the end of the sequence. We will then adjust the inSequence index i to 1 as it will show that the process number is already in the sequence. Lastly, we will add the resources of the process to the total available resources. We do this with the following code.
+```
+for(int j = 0; j < column; j++){
+  available[j] += allocation.at(i).at(j);
+}
+```
+We are adding the processes allocated resources to the total available resources since the process is able to be completed, meaning that the resources originially allocated to the process are now released. Therefore it will be added to the total amount of the current available resources. Once added, the for loop for the row will continue onto the next row until every row and column has been checked, and until the limit is reached for the outer loop.
+
+Now, with all of this information in the variables, we are able to determine if there is a safe state and what the sequence is if there is a safe state. We will check if there is a safe state with the following code.
+```
+bool isSafe = true;
+for(int i = 0; i < row; i++){
+  if(inSequence[i] != 1){
+    isSafe = false;
+    break;
+  }
+}
+```
+This code will have a isSafe variable that will act as a flag to determine if the processes are in a safe state. It will check all the values in inSequence and if one of them is not a 1, then that means that there is a process that is not in the sequence, therefore causing it to be in an unsafe state. This will set the isSafe flag to false and break out. We will then need to output if there is a safe state and what it is or if there is no safe state. We simply do this by checking if isSafe is true. If it is true then we will print out that there is a safe state and use the following for loop to print out each position in the sequence.
+```
+for(int i = 0; i < row; i++){
+  std::cout << " " << sequence[i] << " ";
+  }
+```
+This will print out the sequence that the processes are able to run in a safe state. If the isSafe variable is false then we will print out that there is no safe state. 
+
+
+## Wrapping up
+At the end of the bankers algorithm, we clean up the vectors by clearing them. We do that by the following code.
+```
+allocation.clear();
+max.clear();
+available.clear();
+```
+Once the bankers algorithm completes, it will return back to the main function. Here, we will ask the user if they would like to continue. If they would then it will ask them to for another file to input and test. If they would not like to continue then it will stop the program.
+
+# Conclusion
+The bankers algorithm is an algorithm that will avoid deadlocks and figure out a possible sequence that the processes need to run in order to not run into any problems. It will compare each of the processes needs (Max - Allocation) and compare this to the available resources. If there are enough available resources, then the process is added to the sequence and its resources are now added to the total available resources. If there are not enough resources then it will continue to the next process and check if there are enough available resources to fill its needs. It will continue doing this until a sequence is found or if there is no possible sequence. 
