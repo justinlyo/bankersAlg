@@ -35,7 +35,7 @@ Do you want to continue? (y/n):
 It will output that there is a safe sequence, and it will print out this sequence. It will also allow the user to continue if they wish to try another input file.
 
 # Video Walkthrough
-
+[![Watch the video](https://img.youtube.com/vi/eWcMR05BSUE/maxresdefault.jpg)](https://youtu.be/eWcMR05BSUE) 
 # Explanation
 The assignment was to have a banker program that, given an input file consisting of allocation, max, and available resources, will output if there is a safe state or not and will determine a possible sequence of the processes. If there is not a possible sequence then the processes are of an unsafe state, meaning that there will be a deadlock. Therefore it is important for these processes to be in a safe state to avoid deadlocks.
 
